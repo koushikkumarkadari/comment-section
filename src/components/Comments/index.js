@@ -27,23 +27,25 @@ class Comments extends Component {
 
   onAddComment = event => {
     event.preventDefault()
-    const randomNo = Math.floor(Math.random() * 7)
-    const randomColor = initialContainerBackgroundClassNames[randomNo]
     const {name, comment} = this.state
-    const newComment = {
-      id: uuidv4(),
-      username: name,
-      userComment: comment,
-      uploaded: formatDistanceToNow(new Date()),
-      isLiked: false,
-      color: randomColor,
+    if (name !== '' && comment !== '') {
+      const randomNo = Math.floor(Math.random() * 7)
+      const randomColor = initialContainerBackgroundClassNames[randomNo]
+      const newComment = {
+        id: uuidv4(),
+        username: name,
+        userComment: comment,
+        uploaded: formatDistanceToNow(new Date()),
+        isLiked: false,
+        color: randomColor,
+      }
+      this.setState(prevState => ({
+        commentsList: [...prevState.commentsList, newComment],
+        name: '',
+        comment: '',
+        commentsCount: prevState.commentsCount + 1,
+      }))
     }
-    this.setState(prevState => ({
-      commentsList: [...prevState.commentsList, newComment],
-      name: '',
-      comment: '',
-      commentsCount: prevState.commentsCount + 1,
-    }))
   }
 
   onLikingComment = id => {
